@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharma Portal - Chemist Home</title>
+     {% load static %}
+     <link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <h1>Pharma Portal</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About Vendor</a>
+            <a href="#">Register</a>
+            <a href="#">Login</a>
+            <a href="#">Cart 🛒</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h2>Welcome Chemists!</h2>
+        <p>Browse high-quality medicines directly from verified vendors.
+            Easy ordering, quick delivery, and secure payments.</p>
+    </section>
+
+    <!-- Medicine Categories -->
+    <section class="categories">
+        <h3>Medicine Categories</h3>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="category-img"></div> <!-- blank, you’ll add image -->
+                <h4>Tablets</h4>
+            </div>
+            <div class="category-card">
+                <div class="category-img"></div>
+                <h4>Syrups</h4>
+            </div>
+            <div class="category-card">
+                <div class="category-img"></div>
+                <h4>Injections</h4>
+            </div>
+            <div class="category-card">
+                <div class="category-img"></div>
+                <h4>Ointments</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medicines Section -->
+    <section class="medicines">
+        <h3>Popular Medicines</h3>
+        <div class="medicine-grid">
+  {% for med in medicines %}
+    <div class="medicine-card">
+      {% if med.image %}
+        <img src="{{ med.image.url }}" alt="{{ med.name }}" class="medicine-img">
+      {% else %}
+        <div class="medicine-img" style="background:#ccc;"></div>
+      {% endif %}
+      <div class="medicine-content">
+        <h4>{{ med.name }}</h4>
+        <p>{{ med.description|truncatewords:10 }}</p>
+        <p class="price">₹{{ med.price }}</p>
+        <a href="#" class="btn">Add to Cart</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 Pharma Portal | Designed for Chemists | Made with ❤️ by Deepak
+    </footer>
+
+</body>
+
+</html>

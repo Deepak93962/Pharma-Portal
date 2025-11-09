@@ -1,0 +1,14 @@
+# Ignore Python cache and environment files
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Ignore media uploads
+media/
+
+# Ignore local settings or secrets
+*.env
+
