@@ -1,11 +1,71 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vendor Dashboard</title>
+
+  <!-- ✅ Link external CSS -->
+  <link rel="stylesheet" href="{% static 'vendor_dashboard.css' %}">
 </head>
 <body>
-  <h1>Welcome to Vendor Dashboard</h1>
-  <p>This page will show stock, orders, and payments.</p>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Vendor Panel</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Add Medicine</a>
+    <a href="#">Orders</a>
+    <a href="#">Payments</a>
+    <a href="#">Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <h1>Medicine Stock</h1>
+
+    <div class="add-section">
+      <a href="{% url 'add_medicine' %}" class="btn">+ Add New Medicine</a>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Medicine Name</th>
+            <th>Category</th>
+            <th>Price (₹)</th>
+            <th>Quantity</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for med in medicines %}
+          <tr>
+            <td>{{ med.id }}</td>
+            <td>{{ med.name }}</td>
+            <td>{{ med.category }}</td>
+            <td>{{ med.price }}</td>
+            <td>{{ med.quantity }}</td>
+            <td>
+              {% if med.image %}
+                <img src="{{ med.image.url }}" width="50">
+              {% elif med.image_url %}
+                <img src="{{ med.image_url }}" width="50">
+              {% else %}
+                N/A
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" style="text-align:center;">No medicines found</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </body>
 </html>

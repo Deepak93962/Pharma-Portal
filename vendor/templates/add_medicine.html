@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Medicine</title>
+  <link rel="stylesheet" href="{% static 'vendor_dashboard.css' %}">
+  <style>
+    .form-container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #023e8a;
+      margin-bottom: 20px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .btn {
+      background: #0077b6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #023e8a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Add New Medicine</h2>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn">Add Medicine</button>
+    </form>
+    <br>
+    <a href="{% url 'vendor_dashboard' %}" class="btn" style="background:#ccc;color:#000;">Back to Dashboard</a>
+  </div>
+
+</body>
+</html>
