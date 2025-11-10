@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chemist Registration</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <style>
+    .form-container {max-width:600px;margin:60px auto;background:#fff;
+      padding:30px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,0.1);}
+    input, textarea {width:100%;padding:10px;margin:8px 0;
+      border:1px solid #ccc;border-radius:6px;}
+    .btn {background:#0077b6;color:white;padding:10px 20px;border:none;
+      border-radius:6px;cursor:pointer;}
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Register as Chemist</h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+</body>
+</html>

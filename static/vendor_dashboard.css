@@ -15,6 +15,12 @@ body {
     position: fixed;
 }
 
+.sidebar a.active {
+    background: #0077b6;
+    color: #fff;
+    border-radius: 8px;
+}
+
 .sidebar h2 {
     text-align: center;
     margin-bottom: 30px;

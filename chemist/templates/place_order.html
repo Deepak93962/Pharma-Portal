@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Place Order</title>
+  <style>
+    body {font-family: 'Poppins'; background: #f8f9fa;}
+    .form-container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      background: #0077b6;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+    }
+    .btn:hover {background: #023e8a;}
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Place an Order</h2>
+    {% if selected_medicine %}
+  <div style="margin-bottom: 20px; text-align:center;">
+    <h3>Ordering: {{ selected_medicine.name }}</h3>
+    <p>Price: ₹{{ selected_medicine.price }}</p>
+  </div>
+{% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn">Place Order</button>
+    </form>
+  </div>
+</body>
+</html>

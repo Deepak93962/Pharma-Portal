@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Orders</title>
+  <link rel="stylesheet" href="{% static 'vendor_dashboard.css' %}">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Vendor Panel</h2>
+    <a href="{% url 'vendor_dashboard' %}">Dashboard</a>
+    <a href="{% url 'add_medicine' %}">Add Medicine</a>
+    <a href="{% url 'vendor_orders' %}" class="active">Orders</a>
+    <a href="#">Payments</a>
+    <a href="#">Logout</a>
+  </div>
+
+  <!-- Main Section -->
+  <div class="main">
+    <h1>Chemist Orders</h1>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Chemist</th>
+            <th>Medicine</th>
+            <th>Quantity</th>
+            <th>Total (₹)</th>
+            <th>Status</th>
+            <th>Change Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.chemist.username }}</td>
+            <td>{{ order.medicine.name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.total_price }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+              <form class="update-status-form" data-order-id="{{ order.id }}">
+                {% csrf_token %}
+                <select name="status">
+                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Approved" {% if order.status == 'Approved' %}selected{% endif %}>Approved</option>
+                    <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                    <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                </select>
+                <button type="submit" class="btn">Update</button>
+                </form>
+            </td>
+            <td>{{ order.order_date|date:"d M Y, h:i A" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="8" style="text-align:center;">No orders yet</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const forms = document.querySelectorAll(".update-status-form");
+
+  forms.forEach(form => {
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const orderId = form.dataset.orderId;
+      const status = form.querySelector("select[name='status']").value;
+      const csrfToken = form.querySelector("[name=csrfmiddlewaretoken]").value;
+
+      const response = await fetch(`/vendor/update-order/${orderId}/`, {
+        method: "POST",
+        headers: { "X-CSRFToken": csrfToken },
+        body: new URLSearchParams({ status: status }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const statusCell = form.closest("tr").querySelector("td:nth-child(6)");
+        statusCell.textContent = data.new_status;
+        statusCell.style.color = "green";
+
+        // ✅ Show a small alert message
+        if (data.success) {
+            alert(`Order ${orderId} → ${data.new_status}. Remaining Quantity: ${data.new_quantity}`);
+        }
+
+
+      } else {
+        alert(data.error || "Something went wrong!");
+      }
+    });
+  });
+});
+</script>
+
+
+</body>
+</html>

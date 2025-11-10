@@ -18,11 +18,25 @@
         <nav>
             <a href="#">Home</a>
             <a href="#">About Vendor</a>
-            <a href="#">Register</a>
-            <a href="#">Login</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'chemist_dashboard' %}">My Dashboard</a>
+            <a href="{% url 'chemist_logout' %}" style="color:red;">Logout</a>
+            {% else %}
+            <a href="{% url 'chemist_login' %}">Login</a>
+            <a href="{% url 'chemist_register' %}">Register</a>
+            {% endif %}
             <a href="#">Cart 🛒</a>
         </nav>
+         
+
     </header>
+
+        {% if user.is_authenticated %}
+            <div class="welcome-banner">
+                Welcome, <strong>{{ user.username }}</strong> 👋
+            </div>
+        {% endif %}
+
 
     <!-- Hero -->
     <section class="hero">
@@ -69,10 +83,15 @@
         <h4>{{ med.name }}</h4>
         <p>{{ med.description|truncatewords:10 }}</p>
         <p class="price">₹{{ med.price }}</p>
-        <a href="#" class="btn">Add to Cart</a>
-      </div>
-    </div>
-  {% endfor %}
+            {% if user.is_authenticated %}
+            <a href="{% url 'place_order' %}?medicine_id={{ med.id }}" class="btn">Order Now</a>
+            {% else %}
+            <a href="{% url 'chemist_login' %}" class="btn">Login to Order</a>
+            {% endif %}
+
+                </div>
+                </div>
+            {% endfor %}
 </div>
     </section>
 
