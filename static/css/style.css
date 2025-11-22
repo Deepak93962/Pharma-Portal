@@ -1,0 +1,368 @@
+/* -----------------------------
+GLOBAL
+------------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: #f0f5ff;
+    color: #222;
+}
+
+/* -----------------------------
+NAVBAR
+------------------------------ */
+.navbar {
+    background: #0b66ad;
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar .logo {
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: white;
+    margin-left: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: .3s;
+}
+
+.nav-links a:hover {
+    color: #caf0f8;
+    transform: translateY(-2px);
+}
+
+.logout {
+    color: #ffbbbb !important;
+}
+
+/* -----------------------------
+/* ===========================
+   Welcome User Glass Card
+=========================== */
+.welcome-box {
+    width: fit-content;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 22px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.welcome-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.welcome-text {
+    margin: 0;
+    color: #023e8a;
+    font-size: 0.9rem;
+}
+
+.welcome-name {
+    margin: 0;
+    color: #0077b6;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+
+/* ===========================
+   HERO SECTION WITH IMAGE
+=========================== */
+.hero-section {
+    position: relative;
+    height: 380px;
+    background: url("../images/pharma-bg.avif") center/cover no-repeat;
+    border-radius: 12px;
+    margin: 20px 5%;
+    overflow: hidden;
+}
+
+/* Dark gradient overlay */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*background: linear-gradient(to bottom right, rgba(0, 119, 182, 0.55), rgba(2, 62, 138, 0.45));*/
+}
+
+/* Hero Content */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding-top: 90px;
+    color: #0E7FBA;
+}
+
+/* ---- Low opacity background ---- */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.55);
+    /* 0.55 = 55% white overlay */
+    z-index: 1;
+    backdrop-filter: blur(2px);
+    /* optional blur */
+}
+
+.hero-content h1 {
+    font-size: 2.7rem;
+    font-weight: 900;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.hero-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: #00b4d8;
+    padding: 12px 30px;
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: 0.3s;
+}
+
+.hero-btn:hover {
+    background: #0096c7;
+    transform: translateY(-3px);
+}
+/* -----------------------------
+CATEGORIES
+------------------------------ */
+.categories {
+    padding: 60px 8%;
+    text-align: center;
+}
+
+.category-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+/* MAIN CARD */
+.category-card {
+    width: 200px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    transition: .3s;
+    overflow: hidden;
+    /* IMPORTANT */
+    text-align: center;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+}
+
+/* IMAGE CONTAINER */
+.category-img {
+    width: 100%;
+    height: 150px;
+    /* FIXED HEIGHT */
+    overflow: hidden;
+    /* Hide overflow */
+}
+
+/* ACTUAL IMAGE */
+.category-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* The MAGIC fix */
+    display: block;
+}
+
+.category-card h4 {
+    padding: 12px 0;
+    color: #023e8a;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+/* -----------------------------
+MEDICINE SECTION
+------------------------------ */
+.medicines {
+    padding: 60px 8%;
+}
+
+.medicines h3 {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #023e8a;
+    margin-bottom: 40px;
+}
+
+.medicine-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 28px;
+}
+
+/* MEDICINE CARDS FIXED HEIGHT */
+.medicine-card {
+    width: 260px;
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: .3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.medicine-card:hover {
+    transform: translateY(-6px);
+}
+
+/* FIXED IMAGE BOX */
+.medicine-img {
+    width: 100%;
+    height: 180px;
+    /* FIXED HEIGHT */
+    object-fit: cover;
+    /* Prevent stretched images */
+    background: #e3e3e3;
+    border-bottom: 1px solid #eee;
+}
+
+/* Placeholder for missing images */
+.medicine-img.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+}
+
+/* CONTENT AREA */
+.medicine-content {
+    padding: 16px;
+    flex-grow: 1;
+    /* makes all cards same height */
+    display: flex;
+    flex-direction: column;
+}
+
+.price-section {
+    margin-top: auto;
+    /* pushes buttons to bottom */
+}
+
+.btn-group {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.medicine-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.placeholder {
+    background: #e0e0e0;
+}
+
+.medicine-content {
+    padding: 18px;
+}
+
+.price-section {
+    margin-bottom: 12px;
+}
+
+.price {
+    color: #005f99;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    padding: 9px 0;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    transition: .3s;
+}
+
+.btn.primary {
+    background: #0077b6;
+    color: white;
+}
+
+.btn.primary:hover {
+    background: #023e8a;
+}
+
+.btn.secondary {
+    background: #caf0f8;
+    color: #0077b6;
+}
+
+.btn.secondary:hover {
+    background: #bde0fe;
+}
+
+/* -----------------------------
+FOOTER
+------------------------------ */
+footer {
+    background: #023e8a;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    margin-top: 50px;
+    font-size: .9rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .medicine-card {
+        width: 85%;
+    }
+}

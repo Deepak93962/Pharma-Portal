@@ -50,6 +50,62 @@
     .status.Approved { color: green; }
     .status.Delivered { color: blue; }
     .status.Cancelled { color: red; }
+
+
+    .order-table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+.order-table th {
+    background:#0067a3;
+    padding:12px;
+    color:white;
+}
+.order-table td {
+    padding:12px;
+    background:#fff;
+    border-bottom:1px solid #eee;
+}
+
+.group-row td {
+    background:#e9e9e9 !important;
+    font-weight: bold;
+}
+
+.btn-pay {
+    background:#0077cc;
+    color:white;
+    padding:6px 14px;
+    border-radius:8px;
+    text-decoration:none;
+}
+.btn-pay:hover { background:#005fa3; }
+
+.paid {
+    color:green;
+    font-weight:bold;
+}
+
+.status.Pending { color:orange; font-weight:bold; }
+.status.Delivered { color:green; font-weight:bold; }
+
+.empty {
+    text-align:center;
+    color:#555;
+}
+
+.title {
+    text-align:center;
+    margin-top:30px;
+}
+
+.subtitle {
+    text-align:center;
+    margin-top:40px;
+}
+
   </style>
 </head>
 <body>
@@ -63,34 +119,100 @@
 </header>
 
 <section>
-  <h2 style="text-align:center; margin-top:30px;">My Orders</h2>
+  <h2 class="title">My Orders</h2>
 
-  {% if orders %}
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Medicine</th>
-      <th>Quantity</th>
-      <th>Total Price (₹)</th>
-      <th>Status</th>
-      <th>Date</th>
-    </tr>
-    {% for order in orders %}
-    <tr>
-      <td>{{ order.id }}</td>
-      <td>{{ order.medicine.name }}</td>
-      <td>{{ order.quantity }}</td>
-      <td>{{ order.total_price }}</td>
-      <td class="status {{ order.status }}">{{ order.status }}</td>
-      <td>{{ order.order_date|date:"d M Y, h:i A" }}</td>
-    </tr>
-    {% endfor %}
+  <!-- 1️⃣ Single Medicine Orders -->
+  <h3 class="subtitle">Order Now – Single Medicine</h3>
+
+  {% if single_orders %}
+  <table class="order-table">
+      <tr>
+          <th>ID</th>
+          <th>Medicine</th>
+          <th>Qty</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Payment</th>
+      </tr>
+
+      {% for order in single_orders %}
+      <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.medicine.name }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>₹{{ order.total_price }}</td>
+          <td class="status {{ order.status }}">{{ order.status }}</td>
+          <td>{{ order.order_date|date:"d M Y, h:i A" }}</td>
+
+          <td>
+              {% if order.payment_status == "Pending" %}
+                  <a href="{% url 'payment_page' order.id %}?type=single" class="btn-pay">Pay Now</a>
+
+              {% else %}
+                  <span class="paid">Paid</span>
+              {% endif %}
+          </td>
+      </tr>
+      {% endfor %}
+
   </table>
   {% else %}
-    <p style="text-align:center;">You haven’t placed any orders yet.</p>
+      <p class="empty">No single orders.</p>
   {% endif %}
-</section>
 
+
+
+  <!-- 2️⃣ Cart Orders -->
+  <h3 class="subtitle">Cart Orders – Multiple Medicines</h3>
+
+  {% if cart_orders %}
+  <table class="order-table">
+      <tr>
+          <th>Order ID</th>
+          <th>Medicine</th>
+          <th>Qty</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Payment</th>
+      </tr>
+
+      {% for corder in cart_orders %}
+      <tr class="group-row">
+          <td colspan="7"><strong>Cart Order #{{ corder.id }}</strong> (₹{{ corder.total_amount }})</td>
+      </tr>
+
+          {% for item in corder.items.all %}
+          <tr>
+              <td>{{ corder.id }}</td>
+              <td>{{ item.medicine.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>₹{{ item.get_total }}</td>
+              <td class="status {{ corder.status }}">{{ corder.status }}</td>
+              <td>{{ corder.order_date|date:"d M Y, h:i A" }}</td>
+
+              {% if forloop.first %}
+              <td rowspan="{{ corder.items.count }}">
+                  {% if corder.payment_status == "Pending" %}
+                      <a href="{% url 'payment_page' corder.id %}?type=cart" class="btn-pay">Pay Now</a>
+
+                  {% else %}
+                      <span class="paid">Paid</span>
+                  {% endif %}
+              </td>
+              {% endif %}
+          </tr>
+          {% endfor %}
+
+      {% endfor %}
+  </table>
+
+  {% else %}
+      <p class="empty">No cart orders.</p>
+  {% endif %}
+
+</section>
 
 
 

@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Medicine
 from .forms import MedicineForm
-from chemist.models import Order 
+from chemist.models import Order, CartOrder, CartOrderItem
+
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from chemist.models import Payment
 
 
 # Create your views here.
@@ -17,8 +19,16 @@ def vendor_dashboard(request):
     })
 
 def vendor_orders(request):
-    orders = Order.objects.all().order_by('-order_date')
-    return render(request, 'vendor_orders.html', {'orders': orders})
+    # Order Now orders
+    single_orders = Order.objects.all().order_by('-order_date')
+
+    # Cart Orders (multi-item)
+    cart_orders = CartOrder.objects.prefetch_related('items').order_by('-order_date')
+
+    return render(request, 'vendor_orders.html', {
+        'single_orders': single_orders,
+        'cart_orders': cart_orders
+    })
 
 
 def add_medicine(request):
@@ -72,3 +82,7 @@ def update_order_status(request, order_id):
         })
 
     return JsonResponse({'success': False})
+
+def vendor_payments(request):
+    payments = Payment.objects.all().order_by('-date')
+    return render(request, "vendor_payments.html", {"payments": payments})

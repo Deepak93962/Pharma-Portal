@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vendor Orders</title>
-  <link rel="stylesheet" href="{% static 'vendor_dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/vendor_dashboard.css' %}">
 </head>
 <body>
 
@@ -37,32 +37,90 @@
           </tr>
         </thead>
         <tbody>
-          {% for order in orders %}
-          <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.chemist.username }}</td>
-            <td>{{ order.medicine.name }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.total_price }}</td>
-            <td>{{ order.status }}</td>
-            <td>
-              <form class="update-status-form" data-order-id="{{ order.id }}">
-                {% csrf_token %}
-                <select name="status">
-                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
-                    <option value="Approved" {% if order.status == 'Approved' %}selected{% endif %}>Approved</option>
-                    <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
-                    <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
-                </select>
-                <button type="submit" class="btn">Update</button>
-                </form>
-            </td>
-            <td>{{ order.order_date|date:"d M Y, h:i A" }}</td>
-          </tr>
-          {% empty %}
-          <tr><td colspan="8" style="text-align:center;">No orders yet</td></tr>
-          {% endfor %}
-        </tbody>
+
+<!-- ============================
+     1️⃣ ORDER NOW (Single orders)
+============================ -->
+<tr>
+  <td colspan="8" style="background:#0077b6;color:white;font-weight:bold;">
+    Single Medicine Orders
+  </td>
+</tr>
+
+{% for order in single_orders %}
+<tr>
+  <td>{{ order.id }}</td>
+  <td>{{ order.chemist.username }}</td>
+  <td>{{ order.medicine.name }}</td>
+  <td>{{ order.quantity }}</td>
+  <td>{{ order.total_price }}</td>
+  <td>{{ order.status }}</td>
+  <td>
+      <form class="update-status-form" data-order-id="{{ order.id }}">
+          {% csrf_token %}
+          <select name="status">
+              <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+              <option value="Approved" {% if order.status == 'Approved' %}selected{% endif %}>Approved</option>
+              <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+              <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+          </select>
+          <button type="submit" class="btn">Update</button>
+      </form>
+  </td>
+  <td>{{ order.order_date|date:"d M Y, h:i A" }}</td>
+</tr>
+{% endfor %}
+
+
+<!-- ============================
+     2️⃣ CART ORDERS (Multi-item)
+============================ -->
+<tr>
+  <td colspan="8" style="background:#009688;color:white;font-weight:bold;">
+    Cart Orders (Multiple Medicines)
+  </td>
+</tr>
+
+{% for corder in cart_orders %}
+<tr style="background:#eee;">
+    <td colspan="8"><strong>Cart Order #{{ corder.id }}</strong> – {{ corder.chemist.username }} (₹{{ corder.total_amount }})</td>
+</tr>
+
+{% for item in corder.items.all %}
+<tr>
+    <td>{{ item.order.id }}</td>
+    <td>{{ corder.chemist.username }}</td>
+    <td>{{ item.medicine.name }}</td>
+    <td>{{ item.quantity }}</td>
+    <td>{{ item.get_total }}</td>
+    <td>{{ corder.status }}</td>
+
+    <td>
+      <form class="update-status-form-cart" data-order-id="{{ corder.id }}">
+          {% csrf_token %}
+          <select name="status">
+              <option value="Pending" {% if corder.status == 'Pending' %}selected{% endif %}>Pending</option>
+              <option value="Approved" {% if corder.status == 'Approved' %}selected{% endif %}>Approved</option>
+              <option value="Delivered" {% if corder.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+              <option value="Cancelled" {% if corder.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+          </select>
+          <button type="submit" class="btn">Update</button>
+      </form>
+    </td>
+
+    <td>{{ corder.order_date|date:"d M Y, h:i A" }}</td>
+</tr>
+{% endfor %}
+
+{% empty %}
+<tr><td colspan="8">No cart orders found.</td></tr>
+{% endfor %}
+
+</tbody>
+
+      
+        
+         
       </table>
     </div>
   </div>

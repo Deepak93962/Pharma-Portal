@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    
+    <style>
+        body{
+            font-family: 'Poppins', sans-serif;
+            background:#f7f9fc;
+        }
+
+        .cart-container{
+            width:80%;
+            margin:40px auto;
+        }
+
+        .cart-item{
+            background:white;
+            border-radius:12px;
+            padding:20px;
+            margin-bottom:20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .cart-left{
+            display:flex;
+            align-items:center;
+            gap:20px;
+        }
+
+        .cart-image{
+            width:120px;
+            height:120px;
+            border-radius:10px;
+            object-fit:cover;
+            background:#ddd;
+        }
+
+        .cart-name{
+            font-size:18px;
+            font-weight:600;
+        }
+
+        .qty-box{
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+
+        .qty-btn{
+            width:35px;
+            height:35px;
+            border-radius:50%;
+            background:#0077b6;
+            color:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            cursor:pointer;
+            font-size:20px;
+            border:none;
+        }
+
+        .qty-number{
+            font-size:18px;
+            width:30px;
+            text-align:center;
+        }
+
+        .remove-btn{
+            color:red;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .summary-box{
+    width:80%;
+    margin:20px auto;
+    background:white;
+    padding:20px 30px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+
+    display:flex;               /* ⬅ important */
+    justify-content:space-between; /* ⬅ spacing fix */
+    align-items:center;         /* ⬅ vertical fix */
+}
+
+        .btn-checkout{
+            background:#0077b6;
+            padding:12px 20px;
+            color:white;
+            text-decoration:none;
+            border-radius:8px;
+            font-weight:600;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1 style="text-align:center;margin-top:30px;">🛒 Your Cart</h1>
+
+<div class="cart-container">
+
+{% if cart_items %}
+    {% for item in cart_items %}
+    <div class="cart-item" id="cart-item-{{ item.id }}">
+
+        <div class="cart-left">
+            {% if item.medicine.image %}
+            <img src="{{ item.medicine.image.url }}" class="cart-image">
+            {% else %}
+            <div class="cart-image"></div>
+            {% endif %}
+
+            <div>
+                <div class="cart-name">{{ item.medicine.name }}</div>
+                <div>₹{{ item.medicine.price }}</div>
+            </div>
+        </div>
+
+        <div class="qty-box">
+            <button class="qty-btn decrease" data-id="{{ item.id }}">−</button>
+            <span class="qty-number" id="qty-{{ item.id }}">{{ item.quantity }}</span>
+            <button class="qty-btn increase" data-id="{{ item.id }}">+</button>
+        </div>
+
+        <div style="font-weight:600;">₹{{ item.get_total }}</div>
+
+        <a class="remove-btn" href="{% url 'remove_from_cart' item.id %}">Remove</a>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="summary-box">
+    <h3>Total: ₹<span id="grand-total">{{ total }}</span></h3>
+    <a class="btn-checkout" href="{% url 'checkout' %}">Proceed to Place Order</a>
+</div>
+
+{% else %}
+<p style="text-align:center;">Your cart is empty.</p>
+{% endif %}
+
+<script>
+// -----------------------------
+// Quantity Increase / Decrease
+// -----------------------------
+document.querySelectorAll(".increase").forEach(btn => {
+    btn.addEventListener("click", () => updateQty(btn.dataset.id, "increase"));
+});
+
+document.querySelectorAll(".decrease").forEach(btn => {
+    btn.addEventListener("click", () => updateQty(btn.dataset.id, "decrease"));
+});
+
+function updateQty(cartId, action) {
+    fetch(`/cart/update/${cartId}/${action}/`)
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById(`qty-${cartId}`).textContent = data.new_qty;
+            document.getElementById("grand-total").textContent = data.new_total;
+        }
+    });
+}
+</script>
+
+</body>
+</html>

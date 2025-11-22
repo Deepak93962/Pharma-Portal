@@ -5,99 +5,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharma Portal - Chemist Home</title>
-     {% load static %}
-     <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 </head>
 
 <body>
 
-    <!-- Navbar -->
-    <header>
-        <h1>Pharma Portal</h1>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">About Vendor</a>
-            {% if user.is_authenticated %}
-            <a href="{% url 'chemist_dashboard' %}">My Dashboard</a>
-            <a href="{% url 'chemist_logout' %}" style="color:red;">Logout</a>
-            {% else %}
-            <a href="{% url 'chemist_login' %}">Login</a>
-            <a href="{% url 'chemist_register' %}">Register</a>
-            {% endif %}
-            <a href="#">Cart 🛒</a>
-        </nav>
-         
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">💊 Pharma Portal</div>
+        <nav class="nav-links">
+            <a href="#"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#"><i class="fa-solid fa-industry"></i> About Vendor</a>
 
+            {% if user.is_authenticated %}
+            <a href="{% url 'chemist_dashboard' %}"><i class="fa-solid fa-user"></i> My Dashboard</a>
+            <a href="{% url 'chemist_logout' %}" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% else %}
+            <a href="{% url 'chemist_login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+            <a href="{% url 'chemist_register' %}"><i class="fa-solid fa-user-plus"></i> Register</a>
+            {% endif %}
+            
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Cart</a>
+        </nav>
     </header>
 
-        {% if user.is_authenticated %}
-            <div class="welcome-banner">
-                Welcome, <strong>{{ user.username }}</strong> 👋
-            </div>
-        {% endif %}
-
-
-    <!-- Hero -->
-    <section class="hero">
-        <h2>Welcome Chemists!</h2>
-        <p>Browse high-quality medicines directly from verified vendors.
-            Easy ordering, quick delivery, and secure payments.</p>
-    </section>
-
-    <!-- Medicine Categories -->
-    <section class="categories">
-        <h3>Medicine Categories</h3>
-        <div class="category-grid">
-            <div class="category-card">
-                <div class="category-img"></div> <!-- blank, you’ll add image -->
-                <h4>Tablets</h4>
-            </div>
-            <div class="category-card">
-                <div class="category-img"></div>
-                <h4>Syrups</h4>
-            </div>
-            <div class="category-card">
-                <div class="category-img"></div>
-                <h4>Injections</h4>
-            </div>
-            <div class="category-card">
-                <div class="category-img"></div>
-                <h4>Ointments</h4>
-            </div>
-        </div>
-    </section>
-
-    <!-- Medicines Section -->
-    <section class="medicines">
-        <h3>Popular Medicines</h3>
-        <div class="medicine-grid">
-  {% for med in medicines %}
-    <div class="medicine-card">
-      {% if med.image %}
-        <img src="{{ med.image.url }}" alt="{{ med.name }}" class="medicine-img">
-      {% else %}
-        <div class="medicine-img" style="background:#ccc;"></div>
-      {% endif %}
-      <div class="medicine-content">
-        <h4>{{ med.name }}</h4>
-        <p>{{ med.description|truncatewords:10 }}</p>
-        <p class="price">₹{{ med.price }}</p>
-            {% if user.is_authenticated %}
-            <a href="{% url 'place_order' %}?medicine_id={{ med.id }}" class="btn">Order Now</a>
-            {% else %}
-            <a href="{% url 'chemist_login' %}" class="btn">Login to Order</a>
-            {% endif %}
-
-                </div>
-                </div>
-            {% endfor %}
+    {% if user.is_authenticated %}
+<div class="welcome-box">
+    <img src="{% static 'images/user.png' %}" class="welcome-avatar">
+    <div>
+        <p class="welcome-text">Welcome back,</p>
+        <h3 class="welcome-name">{{ user.username }}</h3>
+    </div>
 </div>
+{% endif %}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1>Your Trusted Pharma Marketplace</h1>
+        <p>Order certified medicines from verified vendors with fast delivery and secure payments.</p>
+        <a href="#medicines" class="hero-btn">Browse Medicines</a>
+    </div>
+</section>
+
+
+ <!-- CATEGORIES -->
+<section class="categories">
+    
+    <h3>Medicine Categories</h3>
+
+    <div class="category-grid">
+
+        <div class="category-card">
+            <a href="{% url 'category_page' 'tablets' %}">
+                <div class="category-img">
+                    <img src="{% static 'images/tablet medicin.jpg' %}" alt="Tablets">
+
+                </div>
+                <h4>Tablets</h4>
+            </a>
+        </div>
+
+        <div class="category-card">
+            <a href="{% url 'category_page' 'syrups' %}">
+                <div class="category-img">
+                    <img src="{% static 'images/syrup.jpg' %}" alt="Tablets">
+
+                </div>
+                <h4>Syrups</h4>
+            </a>
+        </div>
+
+        <div class="category-card">
+            <a href="{% url 'category_page' 'injections' %}">
+                <div class="category-img">
+                    <img src="{% static 'images/injection.jpg' %}" alt="Tablets">
+
+                </div>
+                <h4>Injections</h4>
+            </a>
+        </div>
+
+        <div class="category-card">
+            <a href="{% url 'category_page' 'ointments' %}">
+                <div class="category-img">
+                    <img src="{% static 'images/oitments.png' %}" alt="Tablets">
+
+                </div>
+                <h4>Ointments</h4>
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+    <!-- MEDICINE LIST -->
+    <section class="medicines" id="medicines">
+        <h3>Popular Medicines</h3>
+
+        <div class="medicine-grid">
+            {% for med in medicines %}
+            <div class="medicine-card">
+
+                {% if med.image %}
+                <img src="{{ med.image.url }}" class="medicine-img">
+                {% else %}
+                <div class="medicine-img placeholder">
+    No Image
+</div>
+
+                {% endif %}
+
+                <div class="medicine-content">
+                    <h4>{{ med.name }}</h4>
+                    <p>{{ med.description|truncatewords:12 }}</p>
+
+                    <div class="price-section">
+                        <span class="price">₹{{ med.price }}</span>
+                    </div>
+
+                    <div class="btn-group">
+
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'place_order' %}?medicine_id={{ med.id }}" class="btn primary">
+                            Order Now
+                        </a>
+
+                        <a href="{% url 'add_to_cart' med.id %}" class="btn secondary">
+                            Add to Cart
+                        </a>
+
+                        {% else %}
+                        <a href="{% url 'chemist_login' %}" class="btn primary">Login to Order</a>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
     </section>
 
-    <!-- Footer -->
     <footer>
-        &copy; 2025 Pharma Portal | Designed for Chemists | Made with ❤️ by Deepak
+        © 2025 Pharma Portal | Designed with ❤️ by Deepak
     </footer>
 
 </body>

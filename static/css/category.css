@@ -1,0 +1,76 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f8f9fc;
+    margin: 0;
+    padding: 30px;
+}
+
+.title {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #023e8a;
+    margin-bottom: 40px;
+}
+
+.medicine-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 10px;
+}
+
+.medicine-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: .3s;
+}
+
+.medicine-card:hover {
+    transform: translateY(-5px);
+}
+
+.medicine-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.price {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    font-weight: bold;
+    color: #0077b6;
+}
+
+.stock {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #0077b6;
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: .3s;
+}
+
+.btn:hover {
+    background: #023e8a;
+}
+
+.btn.secondary {
+    background: #0096c7;
+}
+
+.btn.secondary:hover {
+    background: #005f73;
+}

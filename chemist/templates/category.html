@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ category }} Medicines</title>
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
+</head>
+
+<body>
+
+<h1 style="text-align:center;">{{ category }} Medicines</h1>
+
+<div class="medicine-grid">
+
+{% for med in medicines %}
+    <div class="medicine-card">
+        {% if med.image %}
+            <img src="{{ med.image.url }}" class="medicine-img">
+        {% else %}
+            <div class="medicine-img placeholder">No Image</div>
+        {% endif %}
+
+        <div class="medicine-content">
+            <h4>{{ med.name }}</h4>
+            <p>{{ med.description|truncatewords:12 }}</p>
+            <p class="price">₹{{ med.price }}</p>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'place_order' %}?medicine_id={{ med.id }}" class="btn">Order Now</a>
+                <a href="{% url 'add_to_cart' med.id %}" class="btn">Add to Cart</a>
+            {% else %}
+                <a href="{% url 'chemist_login' %}" class="btn">Login to Order</a>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

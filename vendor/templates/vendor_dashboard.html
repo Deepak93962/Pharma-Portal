@@ -7,7 +7,7 @@
   <title>Vendor Dashboard</title>
 
   <!-- ✅ Link external CSS -->
-  <link rel="stylesheet" href="{% static 'vendor_dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/vendor_dashboard.css' %}">
 </head>
 <body>
 
@@ -17,7 +17,7 @@
    <a href="{% url 'vendor_dashboard' %}">Dashboard</a>
   <a href="{% url 'add_medicine' %}">Add Medicine</a>
   <a href="{% url 'vendor_orders' %}">Orders</a>
-    <a href="#">Payments</a>
+    <a href="{% url 'vendor_payments' %}">Payments</a>
     <a href="#">Logout</a>
   </div>
 
