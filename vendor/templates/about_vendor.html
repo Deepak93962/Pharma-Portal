@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Vendor</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #0077b6, #023e8a);
+      color: #333;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      padding: 40px;
+    }
+
+    .about-box, .login-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 30px;
+      width: 420px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .about-box h2 {
+      color: #0077b6;
+      margin-bottom: 10px;
+    }
+
+    .about-box p {
+      line-height: 1.7;
+      color: #555;
+    }
+
+    .features li {
+      margin: 10px 0;
+    }
+
+    .login-card h3 {
+      text-align: center;
+      color: #023e8a;
+      margin-bottom: 20px;
+    }
+
+    .login-card input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    .login-card button {
+      width: 100%;
+      padding: 12px;
+      background: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-card button:hover {
+      background: #005f8f;
+    }
+
+    .note {
+      font-size: 13px;
+      text-align: center;
+      margin-top: 10px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ABOUT VENDOR -->
+  <div class="about-box">
+    <h2><i class="fa-solid fa-industry"></i> Medicine Vendor</h2>
+
+    <p>
+      We are a trusted <strong>Medicine Vendor</strong> supplying
+      high-quality pharmaceutical products to registered chemists.
+      Our platform ensures safe ordering, verified medicines, and
+      transparent payments.
+    </p>
+
+    <ul class="features">
+      <li>✔ Certified pharmaceutical supplier</li>
+      <li>✔ Bulk medicine supply</li>
+      <li>✔ Secure order & payment system</li>
+      <li>✔ Fast delivery to chemists</li>
+      <li>✔ Real-time order tracking</li>
+    </ul>
+
+    <p>
+      Vendors can manage medicines, track orders,
+      and receive payments directly through the dashboard.
+    </p>
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div class="login-card">
+    <h3>Vendor Login</h3>
+
+    <form method="POST" action="{% url 'vendor_login' %}">
+      {% csrf_token %}
+
+      <input type="text" name="username" placeholder="Vendor Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="note">
+      Vendor account required to access dashboard
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

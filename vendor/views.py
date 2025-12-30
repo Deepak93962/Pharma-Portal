@@ -7,7 +7,8 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from chemist.models import Payment
-
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 # Create your views here.
 def vendor_dashboard(request):
@@ -86,3 +87,26 @@ def update_order_status(request, order_id):
 def vendor_payments(request):
     payments = Payment.objects.all().order_by('-date')
     return render(request, "vendor_payments.html", {"payments": payments})
+
+
+def about_vendor(request):
+    return render(request, "about_vendor.html")
+
+
+def vendor_login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.is_superuser:
+            login(request, user)
+            return redirect("vendor_dashboard")
+
+        else:
+            messages.error(
+                request,
+                "Access denied. Only admin vendor can login."
+            )
+            return redirect("about_vendor")

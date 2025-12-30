@@ -18,7 +18,9 @@
         <div class="logo">💊 Pharma Portal</div>
         <nav class="nav-links">
             <a href="#"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="#"><i class="fa-solid fa-industry"></i> About Vendor</a>
+           <a href="{% url 'about_vendor' %}">
+                <i class="fa-solid fa-industry"></i> About Vendor
+                </a>
 
             {% if user.is_authenticated %}
             <a href="{% url 'chemist_dashboard' %}"><i class="fa-solid fa-user"></i> My Dashboard</a>
