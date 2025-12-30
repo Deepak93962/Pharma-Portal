@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load tz%}
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +22,22 @@
 
         {% for pay in payments %}
         <tr>
-            <td>{{ pay.order.id }}</td>
+            {% comment %} <td>{{ pay.order.id }}</td> {% endcomment %}
+            <td>
+            {% if pay.single_order %}
+                #{{ pay.single_order.id }} (Single)
+            {% elif pay.cart_order %}
+                #{{ pay.cart_order.id }} (Cart)
+            {% else %}
+                -
+            {% endif %}
+            </td>
+
             <td>{{ pay.chemist.username }}</td>
             <td>₹{{ pay.amount }}</td>
             <td>{{ pay.method }}</td>
-            <td>{{ pay.date|date:"d M Y, h:i A" }}</td>
+          <td> {{ pay.date|localtime|date:"d M Y, h:i A" }}</td>
+
         </tr>
         {% endfor %}
     </table>
