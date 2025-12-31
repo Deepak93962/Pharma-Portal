@@ -1,3 +1,4 @@
-web: python manage.py migrate --noinput && gunicorn pharma_portal.wsgi
+web: gunicorn pharma_portal.wsgi
+
 
 
